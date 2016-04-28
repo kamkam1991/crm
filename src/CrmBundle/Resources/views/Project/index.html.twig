@@ -1,0 +1,39 @@
+{% extends "CrmBundle::project.html.twig"%}
+{% block pageTitle %}
+    Projekty | {{ parent() }}
+{% endblock %}
+
+{% block pageContainer %}
+    <div class="col-xs-10 col-ms-10 col-md-12 col-lg-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nazwa</th>
+                    <th>Klient</th>
+                    <th>Produkcja</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                    <th>Akcja</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in projectList %}
+                <tr>                    
+                    <th scope="row">{{ entry.id }}</th>
+                    <th>{{ entry.nameProject }}</th>
+                    <th>{{ entry.clientId.companyName }} </th>
+                    <th>{{ entry.urlProd }} firmy</th>
+                    <th><div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ entry.status }}%; min-width: 2em;" aria-valuenow="{{ entry.status }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ entry.status }}%
+                        </div>
+                    </th>
+                    <th>{{ entry.date|date("m/d/Y") }}</th>
+                    <th><a href="{{ path('client_detail', {'id':entry.id})}}" class="btn btn-warning">Szczegóły</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock pageContainer %}

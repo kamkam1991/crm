@@ -1,0 +1,24 @@
+{% extends "CrmBundle::main.html.twig"%}
+{% set subMenu= [
+    {'path':'project_list', 'name': 'Lista projektów'},
+    {'path':'project_add', 'name': 'Dodaj projekt'},
+    {'path':'project_find', 'name': 'Szukaj'},
+] 
+%}
+{% block nav %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lf-2 sidebar">
+            <ul class="nav nav-sidebar">
+                {% for item in subMenu %}
+                    <li class="{{ app.request.get('_route') == item['path'] ? 'active': ''}}"><a href="{{ path(item['path']) }}">{{ item['name'] }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>                
+{% endblock nav %}
+
+{% block pageContainer %}
+
+{% endblock pageContainer %}  

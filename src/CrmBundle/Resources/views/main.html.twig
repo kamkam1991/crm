@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% spaceless %}{% block pageTitle %}SmartHome{% endblock %}{% endspaceless %}</title>
+	{% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/crm/css/bootstrap.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/crm/css/dashboard.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/crm/css/style.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/crm/css/timeline.css')}}">
+        {% endblock %}
+        <meta charset="utf-8">
+</head>
+<body>
+    {% set mainMenu= [
+        {'path':'client_list', 'name': 'Klienci'},        
+        {'path':'project_list', 'name': 'Projekty'},
+        {'path':'task_list', 'name': 'Zadania'},
+        {'path':'fv_list', 'name': 'FV'},
+        {'path':'company_update', 'name': 'Miuze'},
+        {'path':'bookkeeping_list', 'name': 'Księgowość'},
+        {'path':'fv_list', 'name': 'Użytkownicy'},
+
+    ] 
+    %}    
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://miuze.pl">Miuze CRM</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {% for item in mainMenu %}
+                    <li><a href="{{ path(item['path']) }}">{{ item['name'] }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="col-xs-12 col-ms-12 col-md-2 col-lg-2">
+{% block nav %}
+{% endblock nav %}
+</div>
+<div class="col-xs-12 col-ms-12 col-md-10 col-lg-10" style="padding-top: 50px;">
+{% block pageContainer %}
+
+{% endblock pageContainer %}
+</div>
+<script type="text/javascript" src="{{ asset('bundles/crm/js/jquery.js')}}"></script>
+<script type="text/javascript" src="{{ asset('bundles/crm/js/bootstrap.js')}}"></script>
+<script type="text/javascript" src="{{ asset('bundles/crm/js/function.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</body>
+</html>

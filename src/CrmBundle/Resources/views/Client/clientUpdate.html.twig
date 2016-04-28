@@ -1,0 +1,13 @@
+{% extends "CrmBundle::client.html.twig"%}
+{% block pageTitle %}
+    Aktualizuj | {{ parent() }}
+{% endblock %}
+
+{% block pageContainer %}
+    <div class="col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 col-xs-12 col-ms-12 col-md-4 col-lg-4">
+        {% form_theme clientForm 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(clientForm) }}
+
+            {{ form_end(clientForm) }}
+    </div>
+{% endblock pageContainer %}

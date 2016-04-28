@@ -1,0 +1,160 @@
+{% extends "CrmBundle::client.html.twig"%}
+{% block pageTitle %}
+    Klienci | {{ parent() }}
+{% endblock %}
+
+{% block pageContainer %}
+<div class="row">
+    <div class="col-xs-10 col-ms-10 col-md-3 col-lg-3">
+        <img class="img-responsive" src="" alt=""/>
+    </div>
+    <div class="col-md-offset-1 col-lg-offset-1 col-xs-10 col-ms-10 col-md-8 col-lg-8">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Dane</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in dataList %}
+                <tr>
+                    <th>Imię i nazwisko</th>
+                    <th>{{ entry.firstName }} {{ entry.lastName }}</th>
+                </tr>
+                <tr>
+                    <th>Nazwa firmy</th>
+                    <th>{{ entry.companyName }}</th>
+                </tr>
+                <tr>
+                    <th>Adres</th>
+                    <th>{{ entry.postCode }}, {{ entry.city }}</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>{{ entry.street }} {{ entry.numberBuild }}</th>
+                </tr>
+                <tr>
+                    <th>Telefon</th>
+                    <th>{{ entry.telNumber }}</th>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <th>{{ entry.email }}</th>
+                </tr>
+                <tr>
+                    <th><a href="{{ path( 'client_update', {'id': entry.id} )}}" class="btn btn-warning">Edytuj dane</a></th>
+                    <th><a href="{{ path( 'project_add', {'id': entry.id} )}}" class="btn btn-info">Dodaj projekt</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>            
+    </div>
+</div>
+<hr />
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#timeline" aria-controls="timeline" role="tab" data-toggle="tab">Timeline</a></li>
+        <li role="presentation"><a href="#project" aria-controls="project" role="tab" data-toggle="tab">Projekty</a></li>
+        <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Pliki</a></li>
+        <li role="presentation"><a href="#fv" aria-controls="fv" role="tab" data-toggle="tab">Faktury</a></li>
+    </ul>
+<!-- Tab panes -->
+    <div class="tab-content">
+{# -------------------------------------------------------------------------timeline----------------------------#}
+        <div role="tabpanel" class="tab-pane active" id="timeline">
+            <div class="col-xs-6 col-ms-6 col-md-6 col-lg-6">
+                <h3>Dodaj notatke kontaktową</h3>
+                {% form_theme formTimeline 'bootstrap_3_horizontal_layout.html.twig' %}
+                    {{ form_start(formTimeline) }}
+                    {{ form_end(formTimeline) }}
+            </div>
+            <div class="col-md-0ffset-1 col-lg-offset-1 col-xs-5 col-ms-5 col-md-5 col-lg-5">
+                {% if timeline is empty %}
+                    <h3 class="alert alert-warning">Nikt się jeszcze nie kontaktował.</h3>
+                {% else %}
+                <ul class="timeline">
+                    {% for entry in timeline %}
+                    <li>
+                        <i class="fa fa-file-text-o red"></i>
+                        <span class="date">{{ entry.date|date("m/d")}}</span>
+                        <div class="content">
+                            <p><strong>Konstantyn Kowalski</strong> - {{ entry.type }} dnia {{ entry.date|date("m/d/Y")}}</p>
+                            <blockquote><p>{{ entry.content }}</p></blockquote>
+                        </div>
+                    </li>  
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+{# -------------------------------------------------------------------------projects----------------------------#}
+        <div role="tabpanel" class="tab-pane" id="project">
+            <table class="table table-hover">
+                <caption>Projekty</caption>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Id</th>
+                        <th>Nazwa</th>
+                        <th>Opiekun</th>
+                        <th>Deadline</th>
+                        <th>URL test</th>
+                        <th>URL prod</th>
+                        <th>GIT</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in projectList %}
+                    <tr>
+                        <th scope="row">{{ entry.id }}</th>
+                        <th>{{ entry.status }}</th>
+                        <th>{{ entry.id }}</th>
+                        <th>{{ entry.nameProject }}</th>
+                        <th>{{ entry.date|date("m/d/Y") }}</th>
+                        <th>{{ entry.urlTest }}</th>
+                        <th>{{ entry.urlProd }}</th>
+                        <th>{{ entry.gitLink }}</th>
+                        <th><a href="#" class="btn btn-warning">Szczegóły</a></th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{# -------------------------------------------------------------------------Files----------------------------#}
+        <div role="tabpanel" class="tab-pane" id="files">
+            <div class="col-xs-6 col-ms-6 col-md-6 col-lg-6">
+                <h3>Dodaj nowy plik</h3>
+                {% form_theme fileForm 'bootstrap_3_horizontal_layout.html.twig' %}
+                    {{ form_start(fileForm) }}
+                    {{ form_end(fileForm) }}
+            </div>
+            <div class="col-md-0ffset-1 col-lg-offset-1 col-xs-5 col-ms-5 col-md-5 col-lg-5">
+                <table class="table table-hover">
+                <caption>Lista plików</caption>
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in fileList %}
+                    <tr>
+                        <th>{{ entry.path }}</th>
+                        <th><a class="btn btn-success" href="{{ entry.path }}">Pobierz</a></th>
+                        <th><a class="btn btn-danger" href="{{ path('client_file_delete', {'id': entry.id}) }}">Usuń</a></th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+{# -------------------------------------------------------------------------FV----------------------------#}
+        <div role="tabpanel" class="tab-pane" id="fv">
+        FV
+        </div>
+    </div>
+</div>
+{% endblock pageContainer %}

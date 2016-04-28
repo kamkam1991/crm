@@ -1,0 +1,48 @@
+{% extends "CrmBundle::client.html.twig"%}
+{% block pageTitle %}
+    Szukaj | {{ parent() }}
+{% endblock %}
+
+{% block pageContainer %}
+    <div class="col-xs-10 col-ms-10 col-md-12 col-lg-12">
+    {% if findList is defined %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Nazwa firmy</th>
+                    <th>Miejscowość</th>
+                    <th>Ulica</th>
+                    <th>Nr budynku</th>
+                    <th>Telefon</th>
+                    <th>Akcja</th>
+                    <th>Projekt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in findList %}
+                <tr>
+                    <th scope="row">{{ entry.id }}</th>
+                    <th>{{ entry.firstName }}</th>
+                    <th>{{ entry.lastName }}</th>
+                    <th>{{ entry.companyName }} firmy</th>
+                    <th>{{ entry.city }}</th>
+                    <th>{{ entry.street }}</th>
+                    <th>{{ entry.numberBuild }}</th>
+                    <th>{{ entry.telNumber }}</th>
+                    <th><a href="#" class="btn btn-warning">Szczegóły</a></th>
+                    <th><a href="#" class="btn btn-info">Dodaj</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {% form_theme formSearch 'bootstrap_3_horizontal_layout.html.twig' %}
+            {{ form_start(formSearch) }}
+
+            {{ form_end(formSearch) }}
+    {% endif %}
+    </div>
+{% endblock pageContainer %}
