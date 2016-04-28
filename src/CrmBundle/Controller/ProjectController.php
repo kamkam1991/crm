@@ -34,14 +34,22 @@ class ProjectController extends Controller
     
     /**
      * @Route(
-     *      "/project_add",
+     *      "/project_add/{client_id}",
      *      name = "project_add",
+     *      defaults={"client_id" = "null",
+     *      requirements={"client_id"="\d+"}
      * )
      * @Template
      */
-    public function projectAddAction(Request $Request)
+    public function projectAddAction($client_id, Request $Request)
     {
         $Entity = new Project();
+        
+        $client = $this->getDoctrine()->getRepository('CrmBundle:Client')->findOneById($client_id);
+        if ($client) {
+           $Entity->setClientId($client); 
+        }
+        
         $ProjectForm = $this->createForm(new ProjectType(), $Entity);
         $ProjectForm->handleRequest($Request);
         if ($Request->isMethod('POST')){
